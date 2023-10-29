@@ -21,16 +21,16 @@ def verifier_credentials(email, password):
 # Fonction pour jouer à la Roulette
 def jouer_roulette():
     print("Jouer à la Roulette - Mini Projet")
-    balance = 1000  # Starting balance
+    balance = 1000  # Solde initial
     while True:
-        print(f"Votre solde actuel : ${balance}")
-        bet = int(input("Misez un montant : $"))
+        print(f"Solde actuel : {balance} TND")  # L'argent est en Tunisian Dinar
+        bet = int(input("Misez un montant : TND"))
 
         if bet <= 0 or bet > balance:
             print("Mise invalide. Veuillez entrer une mise valide.")
             continue
 
-        # Simulate a simple Roulette game
+        # Simuler un jeu de Roulette simple
         spin_result = random.randint(0, 36)
         print(f"La balle atterrit sur le numéro {spin_result}")
 
@@ -52,7 +52,7 @@ def chiffrement_cesar():
     text = input("Entrez le texte à chiffrer : ")
     shift = int(input("Entrez le décalage : "))
 
-    encrypted_text = ""
+    texte_chiffre = ""
 
     for char in text:
         if char.isalpha():
@@ -63,14 +63,14 @@ def chiffrement_cesar():
             char = chr(shifted + ord('a'))
             if is_upper:
                 char = char.upper()
-        encrypted_text += char
+        texte_chiffre += char
 
-    print("Texte chiffré :", encrypted_text)
+    print("Texte chiffré :", texte_chiffre)
 
 
 # Fonction principale
 def main():
-    print("Bienvenue!")
+    print("Marhabe!")  # Marhaba signifie "Bienvenue" en Tunisien
 
     while True:
         print("Menu principal:")
