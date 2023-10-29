@@ -1,0 +1,120 @@
+import re
+import random
+
+
+# Fonction pour enregistrer un nouvel utilisateur
+def enregistrer_utilisateur(email, password):
+    with open("Enregistrement.txt", "a") as fichier:
+        fichier.write(f"{email},{password}\n")
+
+
+# Fonction pour vérifier les credentials dans le fichier Enregistrement.txt
+def verifier_credentials(email, password):
+    with open("Enregistrement.txt", "r") as fichier:
+        for ligne in fichier:
+            credentials = ligne.strip().split(",")
+            if len(credentials) == 2 and credentials[0] == email and credentials[1] == password:
+                return True
+    return False
+
+
+# Fonction pour jouer à la Roulette
+def jouer_roulette():
+    print("Jouer à la Roulette - Mini Projet")
+    balance = 1000  # Starting balance
+    while True:
+        print(f"Votre solde actuel : ${balance}")
+        bet = int(input("Misez un montant : $"))
+
+        if bet <= 0 or bet > balance:
+            print("Mise invalide. Veuillez entrer une mise valide.")
+            continue
+
+        # Simulate a simple Roulette game
+        spin_result = random.randint(0, 36)
+        print(f"La balle atterrit sur le numéro {spin_result}")
+
+        if spin_result == 0:
+            print("La maison gagne !")
+            balance -= bet
+        else:
+            print("Vous gagnez !")
+            balance += bet
+
+        play_again = input("Voulez-vous rejouer ? (O/N) : ")
+        if play_again.lower() != "o":
+            break
+
+
+# Fonction pour le chiffrement César
+def chiffrement_cesar():
+    print("Chiffrement César")
+    text = input("Entrez le texte à chiffrer : ")
+    shift = int(input("Entrez le décalage : "))
+
+    encrypted_text = ""
+
+    for char in text:
+        if char.isalpha():
+            is_upper = char.isupper()
+            char = char.lower()
+            shifted = ord(char) + shift - ord('a')
+            shifted = shifted % 26
+            char = chr(shifted + ord('a'))
+            if is_upper:
+                char = char.upper()
+        encrypted_text += char
+
+    print("Texte chiffré :", encrypted_text)
+
+
+# Fonction principale
+def main():
+    print("Bienvenue!")
+
+    while True:
+        print("Menu principal:")
+        print("1. S'enregistrer")
+        print("2. S'authentifier")
+        choix = input("Choisissez une option (1/2) : ")
+
+        if choix == "1":
+            email = input("Entrez votre email : ")
+            password = input("Entrez votre mot de passe : ")
+
+            if re.match(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).{8,}$", password):
+                enregistrer_utilisateur(email, password)
+                print("Utilisateur enregistré avec succès.")
+            else:
+                print("Le mot de passe ne répond pas aux critères.")
+
+        elif choix == "2":
+            email = input("Email : ")
+            password = input("Mot de passe : ")
+            if verifier_credentials(email, password):
+                print("Authentification réussie.")
+                while True:
+                    print("Menu après authentification:")
+                    print("A. Jouer à la Roulette")
+                    print("B. Chiffrement César")
+                    print("Q. Quitter")
+                    choix_menu = input("Choisissez une option (A/B/Q) : ")
+
+                    if choix_menu == "A":
+                        jouer_roulette()
+                    elif choix_menu == "B":
+                        chiffrement_cesar()
+                    elif choix_menu == "Q":
+                        break
+                    else:
+                        print("Option invalide.")
+
+            else:
+                print("Authentification échouée. Veuillez vous enregistrer.")
+
+        else:
+            print("Option invalide. Choisissez 1 pour s'enregistrer ou 2 pour s'authentifier.")
+
+
+if __name__ == "__main__":
+    main()
